@@ -36,7 +36,7 @@ module my_service_account {
   source = "garbetjie/service-account/google"
   
   account_id = "my-service-account"
-  roles = ["projects/${data.google_project.project.project_id}/roles/${google_project_iam_custom_role.my_custom_role.role_id}"]
+  roles = [google_project_iam_custom_role.my_custom_role.id]
 }
 ```
 
