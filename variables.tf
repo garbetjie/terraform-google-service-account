@@ -1,5 +1,5 @@
 variable roles {
-  type = list(string)
+  type = set(string)
   description = "A list of roles to assign to the service account"
 }
 
