@@ -4,7 +4,7 @@ resource google_service_account account {
 }
 
 resource google_project_iam_member roles {
-  for_each = var.roles
+  for_each = local.project_roles
   member = "serviceAccount:${google_service_account.account.email}"
   role = each.value
 }

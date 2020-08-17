@@ -1,6 +1,7 @@
-variable roles {
+variable project_roles {
   type = set(string)
-  description = "A list of roles to assign to the service account"
+  default = []
+  description = "A list of project-wide roles to assign to the service account"
 }
 
 variable account_id {
@@ -22,4 +23,14 @@ variable display_name_suffix {
 
 locals {
   display_name = "${coalesce(var.display_name, var.account_id)}${var.display_name_suffix}"
+
+  project_roles = toset(concat(
+    [for role in var.project_roles:
+      role
+    if substr(role, 0, 9) == "projects/" || substr(role, 0, 14) == "organizations/"],
+
+    [for role in var.project_roles:
+      "roles/${trimprefix(role, "roles/")}"
+    if substr(role, 0, 9) != "projects/" && substr(role, 0, 14) != "organizations/"]
+  ))
 }
